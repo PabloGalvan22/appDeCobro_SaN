@@ -7,6 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* (Mismos estilos que el original, no se modifican) */
         :root {
             --primary: #2c3e50;
             --primary-dark: #1a252f;
@@ -948,6 +949,27 @@
             box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
         }
 
+        /* Nuevo campo de concepto */
+        .concept-input-container {
+            margin-bottom: 15px;
+        }
+
+        .concept-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .concept-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
         .mobile-btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1852,14 +1874,14 @@
             modal.classList.add('active');
         }
 
-        // Agregar movimiento con validación
-        async function addLoan(userName, amount = null, type = null) {
+        // FUNCIÓN MODIFICADA: Agregar movimiento con concepto (qué se compró)
+        async function addLoan(userName, amount = null, type = null, note = '') {
             if (!currentUser) {
                 showAlert('Debes iniciar sesión primero', 'error');
                 return;
             }
             
-            // Si se pasa tipo y monto directamente
+            // Si se pasa tipo y monto directamente (desde botones)
             if (amount !== null && type !== null) {
                 // Validar monto
                 if (isNaN(amount) || amount === 0) {
@@ -1903,7 +1925,7 @@
                         date: Date.now(),
                         type: type === 'payment' ? 'pago' : 'prestamo',
                         processedBy: currentUser.email,
-                        note: '',
+                        note: note || '',  // Guardar el concepto
                         id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
                     };
                     
@@ -1913,9 +1935,11 @@
                     // Guardar en Firebase
                     await set(ref(db, 'loans/' + userName), users[userName]);
                     
-                    // Limpiar input
-                    const input = document.getElementById(`loan-${userName}`);
-                    if (input) input.value = '';
+                    // Limpiar inputs
+                    const amountInput = document.getElementById(`loan-${userName}`);
+                    if (amountInput) amountInput.value = '';
+                    const conceptInput = document.getElementById(`concept-${userName}`);
+                    if (conceptInput) conceptInput.value = '';
                     
                     // Mostrar confirmación
                     showAlert('Movimiento registrado exitosamente', 'success');
@@ -1932,11 +1956,12 @@
                 return;
             }
             
-            // Método antiguo para compatibilidad
-            const input = document.getElementById(`loan-${userName}`);
-            if (!input) return;
+            // Método antiguo para compatibilidad (desde input con Enter)
+            const amountInput = document.getElementById(`loan-${userName}`);
+            const conceptInput = document.getElementById(`concept-${userName}`);
+            if (!amountInput) return;
             
-            let amountText = input.value.trim().replace(/,/g, '.');
+            let amountText = amountInput.value.trim().replace(/,/g, '.');
             
             // Manejar entrada vacía
             if (amountText === '' || amountText === '-') {
@@ -1985,13 +2010,13 @@
                     users[userName].loans = [];
                 }
                 
-                // Agregar el nuevo movimiento
+                // Agregar el nuevo movimiento con concepto
                 const newLoan = {
                     amount: amountValue,
                     date: Date.now(),
                     type: amountValue > 0 ? 'prestamo' : 'pago',
                     processedBy: currentUser.email,
-                    note: '',
+                    note: conceptInput ? conceptInput.value.trim() : '',  // Guardar concepto
                     id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
                 };
                 
@@ -2001,8 +2026,9 @@
                 // Guardar en Firebase
                 await set(ref(db, 'loans/' + userName), users[userName]);
                 
-                // Limpiar input
-                input.value = '';
+                // Limpiar inputs
+                amountInput.value = '';
+                if (conceptInput) conceptInput.value = '';
                 
                 // Mostrar confirmación
                 showAlert('Movimiento registrado exitosamente', 'success');
@@ -2509,7 +2535,7 @@
             renderUsers(filter);
         }
 
-        // Renderizar clientes
+        // Renderizar clientes (MODIFICADO para incluir campo de concepto)
         function renderUsers(filter = '') {
             const container = document.getElementById('usersContainer');
             if (!container) return;
@@ -2650,24 +2676,33 @@
                             <input type="text" 
                                    id="loan-${userName}" 
                                    class="amount-input" 
-                                   placeholder="0.00"
+                                   placeholder="Monto (ej: 100 o -50)"
                                    inputmode="decimal"
                                    value=""
                                    onfocus="this.select()">
                         </div>
                         
+                        <!-- NUEVO CAMPO: Concepto (qué se compró) -->
+                        <div class="concept-input-container">
+                            <input type="text" 
+                                   id="concept-${userName}" 
+                                   class="concept-input" 
+                                   placeholder="¿Qué compró? (opcional)"
+                                   autocomplete="off">
+                        </div>
+                        
                         <div class="mobile-btn-group">
-                            <button class="mobile-action-btn loan-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value) || 0), 'loan')">
+                            <button class="mobile-action-btn loan-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value) || 0), 'loan', document.getElementById('concept-${userName}').value)">
                                 <i class="fas fa-hand-holding-usd"></i> Préstamo (+)
                             </button>
-                            <button class="mobile-action-btn payment-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value) || 0), 'payment')">
+                            <button class="mobile-action-btn payment-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value) || 0), 'payment', document.getElementById('concept-${userName}').value)">
                                 <i class="fas fa-money-bill-wave"></i> Pago (-)
                             </button>
                         </div>
                         
                         <div class="form-note">
                             <i class="fas fa-info-circle"></i> 
-                            <strong>Para móviles:</strong> Use botones arriba. <strong>Para desktop:</strong> Escriba +100 o -50 y presione Enter
+                            <strong>Para móviles:</strong> Use botones arriba. <strong>Para desktop:</strong> Escriba +100 o -50 y presione Enter (se toma el concepto)
                         </div>
                         
                         ${isMobile ? `
@@ -2720,8 +2755,8 @@
                             
                             const processedBy = loan.processedBy ? `<br><small>Por: ${loan.processedBy}</small>` : '';
                             const amount = loan ? Math.abs(loan.amount || 0).toFixed(2) : '0.00';
-                            const note = loan.note ? `<br><small><i>${loan.note}</i></small>` : '';
-                            const safeAmount = loan ? loan.amount : 0;
+                            // Mostrar concepto si existe
+                            const note = loan.note ? `<br><small><i class="fas fa-comment"></i> ${loan.note}</small>` : '';
                             
                             return `
                             <div class="movement-item ${loan && loan.type === 'ajuste' ? 'adjustment' : (loan && loan.amount >= 0 ? 'loan' : 'payment')}">
@@ -2736,7 +2771,7 @@
                                         ${loan && loan.date ? formatDate(loan.date) : 'Fecha desconocida'}${processedBy}${note}
                                     </div>
                                 </div>
-                                <button class="btn btn-danger btn-sm" onclick="deleteLoan('${safeUserName}', ${index}, ${safeAmount})">
+                                <button class="btn btn-danger btn-sm" onclick="deleteLoan('${safeUserName}', ${index}, ${loan ? loan.amount : 0})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -2748,13 +2783,13 @@
                 grid.appendChild(clientCard);
             });
             
-            // Agregar evento Enter para desktop
+            // Agregar evento Enter para desktop (toma el concepto también)
             if (!isMobile) {
                 document.querySelectorAll('.amount-input').forEach(input => {
                     input.addEventListener('keypress', function(e) {
                         if (e.key === 'Enter') {
                             const userName = this.id.replace('loan-', '');
-                            addLoan(userName);
+                            addLoan(userName); // La función addLoan leerá el concepto por su ID
                         }
                     });
                 });
