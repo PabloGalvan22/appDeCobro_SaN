@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Gestor de Préstamos Pro - Sistema Administrativo</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+    <title>Gestor de Préstamos Pro - PWA + Modo Oscuro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== VARIABLES ===== */
         :root {
             --primary: #2c3e50;
             --primary-dark: #1a252f;
@@ -29,7 +30,6 @@
             --card-bg: #ffffff;
             --shadow: rgba(0, 0, 0, 0.1);
             --shadow-hover: rgba(0, 0, 0, 0.2);
-            --touch-size: 48px;
         }
 
         body.dark {
@@ -53,7 +53,6 @@
             --border: #34495e;
             --card-bg: #2c3e50;
             --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-hover: rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -64,24 +63,21 @@
         }
 
         body {
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: var(--dark);
             line-height: 1.5;
             transition: background 0.3s, color 0.2s;
         }
-
         body.dark {
             background: linear-gradient(135deg, #1e2a3a 0%, #2c3e50 100%);
         }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 16px;
         }
-
         /* Pantalla de Login */
         .auth-screen {
             display: flex;
@@ -94,7 +90,6 @@
         body.dark .auth-screen {
             background: linear-gradient(135deg, #1e2a3a 0%, #2c3e50 100%);
         }
-
         .auth-card {
             background: var(--card-bg);
             border-radius: 28px;
@@ -103,7 +98,6 @@
             max-width: 450px;
             box-shadow: 0 20px 40px var(--shadow);
         }
-
         .auth-logo {
             text-align: center;
             margin-bottom: 30px;
@@ -116,7 +110,6 @@
         }
         .auth-logo h1 { font-size: 1.8rem; color: var(--primary); font-weight: 700; }
         .auth-logo p { color: var(--gray); font-size: 0.9rem; margin-top: 5px; }
-
         /* Alertas */
         .alert {
             padding: 14px 18px;
@@ -133,7 +126,6 @@
         .alert-error { background: rgba(231, 76, 60, 0.1); border-left-color: var(--danger); color: var(--danger); }
         .alert-warning { background: rgba(243, 156, 18, 0.1); border-left-color: var(--warning); color: var(--warning); }
         .alert-info { background: rgba(52, 152, 219, 0.1); border-left-color: var(--info); color: var(--info); }
-
         /* Formularios */
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 0.9rem; }
@@ -145,12 +137,10 @@
             border: 2px solid var(--border);
             border-radius: 14px;
             font-size: 16px;
-            transition: all 0.3s;
             background: var(--light);
             color: var(--dark);
         }
-        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1); background: var(--card-bg); }
-
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,62,80,0.1); background: var(--card-bg); }
         /* Botones */
         .btn {
             padding: 14px 20px;
@@ -163,17 +153,15 @@
             justify-content: center;
             gap: 10px;
             font-size: 15px;
-            transition: all 0.2s ease;
-            min-height: var(--touch-size);
+            transition: all 0.2s;
+            min-height: 48px;
         }
         .btn-block { width: 100%; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); }
         .btn-danger { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); color: white; }
         .btn-success { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; }
         .btn-warning { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); color: white; }
         .btn-sm { padding: 10px 16px; font-size: 14px; min-height: 44px; }
-
         /* Header */
         .app-header {
             background: var(--card-bg);
@@ -194,7 +182,7 @@
         .brand { display: flex; align-items: center; gap: 10px; }
         .brand i { font-size: 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-text-fill-color: transparent; }
         .brand h1 { font-size: 1.5rem; color: var(--primary); font-weight: 700; }
-        .security-badge { background: rgba(39, 174, 96, 0.1); color: var(--success); padding: 5px 12px; border-radius: 20px; font-size: 12px; display: flex; align-items: center; gap: 5px; }
+        .security-badge { background: rgba(39,174,96,0.1); color: var(--success); padding: 5px 12px; border-radius: 20px; font-size: 12px; display: flex; align-items: center; gap: 5px; }
         .header-stats { display: flex; gap: 20px; }
         .stat-card { background: var(--light); padding: 15px 20px; border-radius: 10px; text-align: center; min-width: 140px; border: 1px solid var(--border); transition: all 0.3s; }
         .stat-label { font-size: 12px; color: var(--gray); text-transform: uppercase; font-weight: 600; margin-bottom: 5px; }
@@ -204,7 +192,6 @@
         .user-info { text-align: right; }
         .user-name { font-weight: 600; color: var(--primary); font-size: 0.95rem; }
         .user-role { font-size: 12px; color: var(--gray); font-weight: 500; }
-
         /* Dashboard */
         .dashboard { display: grid; grid-template-columns: 280px 1fr; gap: 24px; margin-bottom: 24px; }
         .sidebar { background: var(--card-bg); border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px var(--shadow); border: 1px solid var(--border); height: fit-content; position: sticky; top: 110px; }
@@ -212,14 +199,12 @@
         .section-title { font-size: 1rem; color: var(--primary); font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .section-title i { color: var(--secondary); }
         .main-content { background: var(--card-bg); border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px var(--shadow); border: 1px solid var(--border); min-height: 600px; }
-
         /* Filtros */
         .filter-bar { background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border); }
         .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .search-container { position: relative; flex: 1; max-width: 350px; }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); z-index: 2; }
         .search-container input { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid var(--border); border-radius: 10px; font-size: 14px; background: var(--card-bg); color: var(--dark); }
-
         /* Grid de Clientes */
         .clients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
         .client-card { background: var(--card-bg); border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px var(--shadow); border: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
@@ -230,18 +215,16 @@
         .client-avatar { width: 55px; height: 55px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.3rem; border: 3px solid white; box-shadow: 0 0 0 2px var(--primary); }
         .client-details h3 { font-size: 1.3rem; color: var(--primary); font-weight: 700; margin-bottom: 5px; }
         .client-meta { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-
         /* Saldo */
         .balance-container { background: linear-gradient(135deg, var(--light), #f0f3f5); border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; border: 2px solid transparent; }
         body.dark .balance-container { background: linear-gradient(135deg, #34495e, #2c3e50); }
-        .balance-container.positive { border-color: rgba(39, 174, 96, 0.3); background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(39, 174, 96, 0.1)); }
-        .balance-container.negative { border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), rgba(231, 76, 60, 0.1)); }
+        .balance-container.positive { border-color: rgba(39,174,96,0.3); background: linear-gradient(135deg, rgba(39,174,96,0.05), rgba(39,174,96,0.1)); }
+        .balance-container.negative { border-color: rgba(231,76,60,0.3); background: linear-gradient(135deg, rgba(231,76,60,0.05), rgba(231,76,60,0.1)); }
         .balance-amount { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
         .balance-positive { color: var(--success); }
         .balance-negative { color: var(--danger); }
         .balance-zero { color: var(--gray); }
         .balance-label { font-size: 14px; color: var(--gray); font-weight: 500; }
-
         /* Movimientos */
         .movement-form-simple { background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
         .form-note { font-size: 12px; color: var(--gray); margin-top: 8px; display: flex; align-items: center; gap: 5px; }
@@ -255,14 +238,13 @@
         .movement-item.adjustment { border-left: 4px solid var(--adjust); }
         .movement-details { flex: 1; }
         .movement-type { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-right: 10px; }
-        .type-loan { background: rgba(39, 174, 96, 0.1); color: var(--success); }
-        .type-payment { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
-        .type-adjustment { background: rgba(155, 89, 182, 0.1); color: var(--adjust); }
+        .type-loan { background: rgba(39,174,96,0.1); color: var(--success); }
+        .type-payment { background: rgba(231,76,60,0.1); color: var(--danger); }
+        .type-adjustment { background: rgba(155,89,182,0.1); color: var(--adjust); }
         .movement-amount { font-weight: 700; font-size: 1.1rem; }
         .movement-date { font-size: 12px; color: var(--gray); margin-top: 3px; }
-
         /* Modales */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(5px); }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(5px); }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal { background: var(--card-bg); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; box-shadow: 0 25px 50px var(--shadow); transform: translateY(-30px) scale(0.95); transition: all 0.4s; }
         .modal-overlay.active .modal { transform: translateY(0) scale(1); }
@@ -274,7 +256,6 @@
         .modal-title { font-size: 1.5rem; color: var(--primary); font-weight: 700; margin-bottom: 10px; }
         .modal-body { text-align: center; margin-bottom: 30px; color: var(--dark); font-size: 1.1rem; line-height: 1.6; }
         .modal-footer { display: flex; justify-content: center; gap: 15px; }
-
         /* Loading */
         .loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; text-align: center; }
         .spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
@@ -282,32 +263,27 @@
         .empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
         .empty-state i { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
         .empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
-
         /* Resumen */
         .summary-panel { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 15px; padding: 25px; color: white; margin-bottom: 25px; }
         .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .summary-item { text-align: center; }
-        .summary-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .summary-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .summary-label { font-size: 14px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
-
         /* Inputs específicos */
         .amount-input-container { margin-bottom: 15px; }
         .amount-input { width: 100%; padding: 15px; font-size: 18px; border: 2px solid var(--border); border-radius: 10px; text-align: center; background: var(--card-bg); color: var(--dark); font-weight: 600; }
         .concept-input-container { margin-bottom: 15px; }
         .concept-input { width: 100%; padding: 12px 15px; font-size: 15px; border: 2px solid var(--border); border-radius: 10px; background: var(--card-bg); color: var(--dark); }
-
         .mobile-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .mobile-action-btn { padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
         .mobile-action-btn.loan-btn { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; }
         .mobile-action-btn.payment-btn { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); color: white; }
-
         .mobile-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
         .keypad-btn { padding: 16px; font-size: 24px; font-weight: bold; border: 2px solid var(--border); border-radius: 16px; background: var(--card-bg); color: var(--dark); cursor: pointer; min-height: 60px; transition: all 0.2s; }
         .keypad-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
         .keypad-btn.clear { background: var(--danger); color: white; border-color: var(--danger); }
         .keypad-btn.sign { background: var(--warning); color: white; border-color: var(--warning); }
         .keypad-btn.decimal { background: var(--info); color: white; border-color: var(--info); }
-
         /* Responsive */
         @media (max-width: 1200px) { .dashboard { grid-template-columns: 1fr; } .sidebar { position: static; } .clients-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); } }
         @media (max-width: 768px) {
@@ -347,7 +323,7 @@
 <body>
     <!-- Modales -->
     <div id="confirmModal" class="modal-overlay"><div class="modal"><div class="modal-header"><div class="modal-icon danger"><i class="fas fa-exclamation-triangle"></i></div><h3 class="modal-title" id="modalTitle">Confirmar</h3></div><div class="modal-body" id="modalMessage"></div><div class="modal-footer"><button class="btn btn-primary" onclick="closeModal()">Cancelar</button><button class="btn btn-danger" id="confirmActionBtn">Confirmar</button></div></div></div>
-    <div id="infoModal" class="modal-overlay hidden"><div class="modal"><div class="modal-header"><div class="modal-icon success"><i class="fas fa-info-circle"></i></div><h3 class="modal-title">Información</h3></div><div class="modal-body"><p><strong>v2.0 PWA</strong></p><p>Modo Administrador</p><p><small>Última conexión: <span id="lastConnection">N/A</span></small></p></div><div class="modal-footer"><button class="btn btn-primary" onclick="closeInfoModal()">Cerrar</button></div></div></div>
+    <div id="infoModal" class="modal-overlay hidden"><div class="modal"><div class="modal-header"><div class="modal-icon success"><i class="fas fa-info-circle"></i></div><h3 class="modal-title">Información</h3></div><div class="modal-body"><p><strong>v2.0 PWA + Modo Oscuro</strong></p><p>Modo Administrador</p><p><small>Última conexión: <span id="lastConnection">N/A</span></small></p></div><div class="modal-footer"><button class="btn btn-primary" onclick="closeInfoModal()">Cerrar</button></div></div></div>
 
     <!-- Login -->
     <div id="authScreen" class="auth-screen">
@@ -411,8 +387,8 @@
         const db = getDatabase(app);
         const auth = getAuth(app);
         
-        // La persistencia offline en Realtime Database web está habilitada por defecto
-        // No es necesario llamar a enableIndexedDbPersistence
+        // NOTA: La persistencia offline en Realtime Database web está habilitada por defecto.
+        // No es necesario llamar a ninguna función adicional.
 
         let users = {}, currentUser = null;
 
