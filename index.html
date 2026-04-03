@@ -7,6 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== VARIABLES ===== */
         :root {
             --primary: #2c3e50;
             --primary-dark: #1a252f;
@@ -32,6 +33,30 @@
             --touch-size: 48px;
         }
 
+        body.dark {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #e74c3c;
+            --secondary-dark: #c0392b;
+            --success: #2ecc71;
+            --success-dark: #27ae60;
+            --danger: #e74c3c;
+            --danger-dark: #c0392b;
+            --warning: #f1c40f;
+            --warning-dark: #f39c12;
+            --info: #3498db;
+            --info-dark: #2980b9;
+            --adjust: #9b59b6;
+            --adjust-dark: #8e44ad;
+            --dark: #ecf0f1;
+            --light: #2c3e50;
+            --gray: #95a5a6;
+            --border: #34495e;
+            --card-bg: #2c3e50;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.5);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -46,6 +71,11 @@
             color: var(--dark);
             line-height: 1.5;
             font-weight: 400;
+            transition: background 0.3s, color 0.2s;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1e2a3a 0%, #2c3e50 100%);
         }
 
         .container {
@@ -63,6 +93,9 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 16px;
         }
+        body.dark .auth-screen {
+            background: linear-gradient(135deg, #1e2a3a 0%, #2c3e50 100%);
+        }
 
         .auth-card {
             background: var(--card-bg);
@@ -70,14 +103,13 @@
             padding: 28px 20px;
             width: 100%;
             max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px var(--shadow);
         }
 
         .auth-logo {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .auth-logo i {
             font-size: 3rem;
             color: var(--primary);
@@ -85,20 +117,10 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
+        .auth-logo h1 { font-size: 1.8rem; color: var(--primary); font-weight: 700; }
+        .auth-logo p { color: var(--gray); font-size: 0.9rem; margin-top: 5px; }
 
-        .auth-logo h1 {
-            font-size: 1.8rem;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .auth-logo p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        /* Sistema de alertas */
+        /* Alertas */
         .alert {
             padding: 14px 18px;
             border-radius: 14px;
@@ -109,42 +131,17 @@
             border-left: 4px solid;
             animation: slideIn 0.3s ease;
         }
-
-        @keyframes slideIn {
-            from { transform: translateY(-10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
+        @keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .alert-success { background: rgba(39, 174, 96, 0.1); border-left-color: var(--success); color: var(--success); }
         .alert-error { background: rgba(231, 76, 60, 0.1); border-left-color: var(--danger); color: var(--danger); }
         .alert-warning { background: rgba(243, 156, 18, 0.1); border-left-color: var(--warning); color: var(--warning); }
         .alert-info { background: rgba(52, 152, 219, 0.1); border-left-color: var(--info); color: var(--info); }
 
         /* Formularios */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.9rem;
-        }
-
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 0.9rem; }
+        .input-with-icon { position: relative; }
+        .input-with-icon i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); }
         .form-control {
             width: 100%;
             padding: 14px 15px 14px 45px;
@@ -155,13 +152,7 @@
             background: var(--light);
             color: var(--dark);
         }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-            background: white;
-        }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1); background: var(--card-bg); }
 
         /* Botones */
         .btn {
@@ -178,7 +169,6 @@
             transition: all 0.2s ease;
             min-height: var(--touch-size);
         }
-
         .btn-block { width: 100%; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3); }
@@ -188,7 +178,7 @@
         .btn-warning { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); color: white; }
         .btn-sm { padding: 10px 16px; font-size: 14px; min-height: 44px; }
 
-        /* Header - versión escritorio */
+        /* Header */
         .app-header {
             background: var(--card-bg);
             border-radius: 20px;
@@ -204,426 +194,86 @@
             right: 16px;
             z-index: 100;
         }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand i { font-size: 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-text-fill-color: transparent; }
+        .brand h1 { font-size: 1.5rem; color: var(--primary); font-weight: 700; }
+        .security-badge { background: rgba(39, 174, 96, 0.1); color: var(--success); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .header-stats { display: flex; gap: 20px; }
+        .stat-card { background: var(--light); padding: 15px 20px; border-radius: 10px; text-align: center; min-width: 140px; border: 1px solid var(--border); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--shadow); }
+        .stat-label { font-size: 12px; color: var(--gray); text-transform: uppercase; font-weight: 600; margin-bottom: 5px; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .user-menu { display: flex; align-items: center; gap: 15px; }
+        .user-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.2rem; border: 2px solid white; box-shadow: 0 0 0 2px var(--primary); }
+        .user-info { text-align: right; }
+        .user-name { font-weight: 600; color: var(--primary); font-size: 0.95rem; }
+        .user-role { font-size: 12px; color: var(--gray); font-weight: 500; }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        /* Dashboard */
+        .dashboard { display: grid; grid-template-columns: 280px 1fr; gap: 24px; margin-bottom: 24px; }
+        .sidebar { background: var(--card-bg); border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px var(--shadow); border: 1px solid var(--border); height: fit-content; position: sticky; top: 110px; }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-section:last-child { margin-bottom: 0; }
+        .section-title { font-size: 1rem; color: var(--primary); font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .section-title i { color: var(--secondary); }
+        .main-content { background: var(--card-bg); border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px var(--shadow); border: 1px solid var(--border); min-height: 600px; }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand i {
-            font-size: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-text-fill-color: transparent;
-        }
-
-        .brand h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .security-badge {
-            background: rgba(39, 174, 96, 0.1);
-            color: var(--success);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 20px;
-        }
-
-        .stat-card {
-            background: var(--light);
-            padding: 15px 20px;
-            border-radius: 10px;
-            text-align: center;
-            min-width: 140px;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--gray);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-
-        .user-info {
-            text-align: right;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.95rem;
-        }
-
-        .user-role {
-            font-size: 12px;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        /* Dashboard Layout */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px var(--shadow);
-            border: 1px solid var(--border);
-            height: fit-content;
-            position: sticky;
-            top: 110px;
-        }
-
-        .sidebar-section {
-            margin-bottom: 30px;
-        }
-
-        .sidebar-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 1rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-title i {
-            color: var(--secondary);
-        }
-
-        /* Main Content */
-        .main-content {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px var(--shadow);
-            border: 1px solid var(--border);
-            min-height: 600px;
-        }
-
-        /* Filtros y Búsqueda */
-        .filter-bar {
-            background: var(--light);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border);
-        }
-
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .search-container {
-            position: relative;
-            flex: 1;
-            max-width: 350px;
-        }
-
-        .search-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-            z-index: 2;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: white;
-            color: #333333;
-            transition: all 0.3s;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-        }
+        /* Filtros */
+        .filter-bar { background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border); }
+        .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .search-container { position: relative; flex: 1; max-width: 350px; }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); z-index: 2; }
+        .search-container input { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid var(--border); border-radius: 10px; font-size: 14px; background: var(--card-bg); color: var(--dark); transition: all 0.3s; }
+        .search-container input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1); }
 
         /* Grid de Clientes */
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 24px;
-        }
+        .clients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+        .client-card { background: var(--card-bg); border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px var(--shadow); border: 1px solid var(--border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .client-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px var(--shadow-hover); }
+        .client-card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .client-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .client-info { display: flex; align-items: center; gap: 15px; }
+        .client-avatar { width: 55px; height: 55px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.3rem; border: 3px solid white; box-shadow: 0 0 0 2px var(--primary); }
+        .client-details h3 { font-size: 1.3rem; color: var(--primary); font-weight: 700; margin-bottom: 5px; }
+        .client-meta { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 10px; }
+        .client-meta i { color: var(--secondary); }
 
-        /* Tarjeta de Cliente */
-        .client-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px var(--shadow);
-            border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .client-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px var(--shadow-hover);
-        }
-
-        .client-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-
-        .client-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .client-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .client-avatar {
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.3rem;
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-
-        .client-details h3 {
-            font-size: 1.3rem;
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .client-meta {
-            font-size: 13px;
-            color: var(--gray);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .client-meta i {
-            color: var(--secondary);
-        }
-
-        /* Saldo del Cliente */
-        .balance-container {
-            background: linear-gradient(135deg, var(--light), #f0f3f5);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .balance-container.positive {
-            border-color: rgba(39, 174, 96, 0.3);
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(39, 174, 96, 0.1));
-        }
-
-        .balance-container.negative {
-            border-color: rgba(231, 76, 60, 0.3);
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), rgba(231, 76, 60, 0.1));
-        }
-
-        .balance-container.zero {
-            border-color: rgba(149, 165, 166, 0.3);
-        }
-
-        .balance-amount {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
+        /* Saldo */
+        .balance-container { background: linear-gradient(135deg, var(--light), #f0f3f5); border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; border: 2px solid transparent; transition: all 0.3s; }
+        body.dark .balance-container { background: linear-gradient(135deg, #34495e, #2c3e50); }
+        .balance-container.positive { border-color: rgba(39, 174, 96, 0.3); background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(39, 174, 96, 0.1)); }
+        .balance-container.negative { border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), rgba(231, 76, 60, 0.1)); }
+        .balance-container.zero { border-color: rgba(149, 165, 166, 0.3); }
+        .balance-amount { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
         .balance-positive { color: var(--success); }
         .balance-negative { color: var(--danger); }
         .balance-zero { color: var(--gray); }
+        .balance-label { font-size: 14px; color: var(--gray); font-weight: 500; }
 
-        .balance-label {
-            font-size: 14px;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        /* Formulario de Movimiento */
-        .movement-form-simple {
-            background: var(--light);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .form-note {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Lista de Movimientos */
-        .movements-list {
-            max-height: 320px;
-            overflow-y: auto;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: var(--light);
-        }
-
-        .movement-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s;
-        }
-
+        /* Movimientos */
+        .movement-form-simple { background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .form-note { font-size: 12px; color: var(--gray); margin-top: 8px; display: flex; align-items: center; gap: 5px; }
+        .movements-list { max-height: 320px; overflow-y: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--light); }
+        .movement-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); transition: all 0.3s; }
         .movement-item:last-child { border-bottom: none; }
         .movement-item:hover { background: #e8f4fc; }
+        body.dark .movement-item:hover { background: #3d566e; }
         .movement-item.loan { border-left: 4px solid var(--success); }
         .movement-item.payment { border-left: 4px solid var(--danger); }
         .movement-item.adjustment { border-left: 4px solid var(--adjust); }
-
         .movement-details { flex: 1; }
-        .movement-type {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            margin-right: 10px;
-        }
+        .movement-type { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-right: 10px; }
         .type-loan { background: rgba(39, 174, 96, 0.1); color: var(--success); }
         .type-payment { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
         .type-adjustment { background: rgba(155, 89, 182, 0.1); color: var(--adjust); }
-
         .movement-amount { font-weight: 700; font-size: 1.1rem; }
         .movement-date { font-size: 12px; color: var(--gray); margin-top: 3px; }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-        }
+        /* Modales */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(5px); }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            transform: translateY(-30px) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .modal { background: var(--card-bg); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; box-shadow: 0 25px 50px var(--shadow); transform: translateY(-30px) scale(0.95); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal-overlay.active .modal { transform: translateY(0) scale(1); }
         .modal-header { text-align: center; margin-bottom: 25px; }
         .modal-icon { font-size: 4rem; margin-bottom: 20px; }
@@ -634,50 +284,17 @@
         .modal-body { text-align: center; margin-bottom: 30px; color: var(--dark); font-size: 1.1rem; line-height: 1.6; }
         .modal-footer { display: flex; justify-content: center; gap: 15px; }
 
-        /* Loading */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px;
-            text-align: center;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+        /* Loading y empty */
+        .loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { color: var(--gray); font-size: 1.1rem; }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray);
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
         .empty-state i { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
         .empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
-        .empty-state p { font-size: 1rem; max-width: 400px; margin: 0 auto; }
 
-        /* Panel de Resumen */
-        .summary-panel {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 15px;
-            padding: 25px;
-            color: white;
-            margin-bottom: 25px;
-        }
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
+        /* Resumen */
+        .summary-panel { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 15px; padding: 25px; color: white; margin-bottom: 25px; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .summary-item { text-align: center; }
         .summary-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
         .summary-label { font-size: 14px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
@@ -686,345 +303,129 @@
         .hidden { display: none !important; }
         .text-center { text-align: center; }
         .mb-3 { margin-bottom: 1rem; }
-        .mb-4 { margin-bottom: 1.5rem; }
         .mt-3 { margin-top: 1rem; }
         .mt-4 { margin-top: 1.5rem; }
-        .d-flex { display: flex; }
-        .align-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
 
-        /* Inputs específicos */
+        /* Inputs */
         .amount-input-container { margin-bottom: 15px; }
-        .amount-input {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            text-align: center;
-            background: white;
-            font-weight: 600;
-        }
-        .amount-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-        }
+        .amount-input { width: 100%; padding: 15px; font-size: 18px; border: 2px solid var(--border); border-radius: 10px; text-align: center; background: var(--card-bg); color: var(--dark); font-weight: 600; }
+        .amount-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1); }
         .concept-input-container { margin-bottom: 15px; }
-        .concept-input {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 15px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: white;
-            transition: all 0.3s;
-        }
-        .concept-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-        }
+        .concept-input { width: 100%; padding: 12px 15px; font-size: 15px; border: 2px solid var(--border); border-radius: 10px; background: var(--card-bg); color: var(--dark); transition: all 0.3s; }
+        .concept-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1); }
 
-        .mobile-btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .mobile-action-btn {
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
+        .mobile-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .mobile-action-btn { padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
         .mobile-action-btn.loan-btn { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; }
         .mobile-action-btn.payment-btn { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); color: white; }
         .mobile-action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        .mobile-keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .keypad-btn {
-            padding: 16px;
-            font-size: 24px;
-            font-weight: bold;
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            background: white;
-            cursor: pointer;
-            min-height: 60px;
-        }
+        .mobile-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+        .keypad-btn { padding: 16px; font-size: 24px; font-weight: bold; border: 2px solid var(--border); border-radius: 16px; background: var(--card-bg); color: var(--dark); cursor: pointer; min-height: 60px; transition: all 0.2s; }
         .keypad-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
         .keypad-btn.clear { background: var(--danger); color: white; border-color: var(--danger); }
         .keypad-btn.sign { background: var(--warning); color: white; border-color: var(--warning); }
         .keypad-btn.decimal { background: var(--info); color: white; border-color: var(--info); }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .dashboard { grid-template-columns: 1fr; }
-            .sidebar { position: static; }
-            .clients-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-        }
-
+        @media (max-width: 1200px) { .dashboard { grid-template-columns: 1fr; } .sidebar { position: static; } .clients-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); } }
         @media (max-width: 768px) {
-            .app-header {
-                flex-direction: column;
-                gap: 12px;
-                padding: 14px 16px;
-                position: relative;
-                top: 0;
-                left: 0;
-                right: 0;
-                margin: 10px;
-            }
+            .app-header { flex-direction: column; gap: 12px; padding: 14px 16px; position: relative; top: 0; left: 0; right: 0; margin: 10px; }
             .header-left { width: 100%; justify-content: space-between; }
             .brand h1 { font-size: 1.2rem; }
             .security-badge { font-size: 10px; padding: 4px 8px; }
             .header-stats { flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; }
             .stat-card { padding: 8px 12px; min-width: 90px; }
             .stat-value { font-size: 1.3rem; }
-            .stat-label { font-size: 10px; }
             .user-menu { flex-direction: row; justify-content: space-between; width: 100%; gap: 12px; }
             .user-avatar { width: 40px; height: 40px; font-size: 1rem; }
             .user-info { text-align: left; flex: 1; }
-            .user-name { font-size: 0.85rem; }
-            .user-role { font-size: 10px; }
             .btn-sm { padding: 8px 12px; font-size: 12px; }
-
             .dashboard { gap: 16px; }
-            .sidebar { padding: 16px; }
-            .main-content { padding: 16px; }
+            .sidebar, .main-content { padding: 16px; }
             .container { margin-top: 0 !important; padding: 10px; }
-
             .clients-grid { grid-template-columns: 1fr; gap: 16px; }
             .client-card { padding: 16px; }
-            .client-header { flex-wrap: wrap; gap: 12px; }
-            .client-header > div:last-child { margin-left: auto; }
             .client-avatar { width: 48px; height: 48px; font-size: 1.1rem; }
             .client-details h3 { font-size: 1.1rem; }
             .balance-container { padding: 16px; margin: 16px 0; }
             .balance-amount { font-size: 1.8rem; }
-
             .movement-form-simple { padding: 16px; }
             .amount-input { font-size: 20px; padding: 14px; }
-            .concept-input { font-size: 16px; padding: 12px; }
             .mobile-btn-group { gap: 12px; }
-            .mobile-action-btn { padding: 14px; font-size: 15px; }
-
             .movements-list { max-height: 280px; }
             .movement-item { padding: 14px 12px; }
-            .movement-amount { font-size: 1rem; }
-            .movement-date { font-size: 11px; }
-            .movement-type { font-size: 10px; padding: 3px 8px; }
-            .btn-danger.btn-sm { padding: 10px 12px; }
-
             .keypad-btn { padding: 14px; font-size: 22px; min-height: 56px; }
         }
-
         @media (max-width: 480px) {
             .stat-card { padding: 6px 8px; min-width: 70px; }
             .stat-value { font-size: 1.1rem; }
             .btn { font-size: 13px; padding: 12px 16px; }
-            .client-meta { font-size: 11px; flex-wrap: wrap; }
             .movement-item { flex-direction: column; align-items: flex-start; gap: 8px; }
             .movement-item .btn-danger { align-self: flex-end; }
             .keypad-btn { padding: 12px; font-size: 20px; min-height: 52px; }
             .modal { padding: 24px 20px; width: 95%; }
-            .modal-title { font-size: 1.3rem; }
-            .modal-body { font-size: 1rem; }
             .modal-footer { flex-direction: column; gap: 10px; }
             .modal-footer .btn { width: 100%; }
         }
-
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--light); border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type="number"] { -moz-appearance: textfield; }
     </style>
 </head>
 <body>
     <!-- Modales -->
-    <div id="confirmModal" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
-                <h3 class="modal-title" id="modalTitle">Confirmar Eliminación</h3>
-            </div>
-            <div class="modal-body" id="modalMessage"></div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeModal()"><i class="fas fa-times"></i> Cancelar</button>
-                <button class="btn btn-danger" id="confirmActionBtn"><i class="fas fa-trash-alt"></i> Eliminar</button>
-            </div>
-        </div>
-    </div>
+    <div id="confirmModal" class="modal-overlay"><div class="modal"><div class="modal-header"><div class="modal-icon danger"><i class="fas fa-exclamation-triangle"></i></div><h3 class="modal-title" id="modalTitle">Confirmar</h3></div><div class="modal-body" id="modalMessage"></div><div class="modal-footer"><button class="btn btn-primary" onclick="closeModal()">Cancelar</button><button class="btn btn-danger" id="confirmActionBtn">Confirmar</button></div></div></div>
+    <div id="infoModal" class="modal-overlay hidden"><div class="modal"><div class="modal-header"><div class="modal-icon success"><i class="fas fa-info-circle"></i></div><h3 class="modal-title">Info</h3></div><div class="modal-body"><p><strong>v2.0 PWA</strong></p><p>Modo Administrador</p><p><small>Última conexión: <span id="lastConnection">N/A</span></small></p></div><div class="modal-footer"><button class="btn btn-primary" onclick="closeInfoModal()">Cerrar</button></div></div></div>
 
-    <div id="infoModal" class="modal-overlay hidden">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-icon success"><i class="fas fa-info-circle"></i></div>
-                <h3 class="modal-title">Información del Sistema</h3>
-            </div>
-            <div class="modal-body">
-                <p><strong>Sistema de Gestión de Préstamos v2.0</strong></p>
-                <p>Modo Administrador Exclusivo</p>
-                <p>Acceso Restringido: Solo UID Autorizado</p>
-                <p><small>Última conexión: <span id="lastConnection">N/A</span></small></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeInfoModal()"><i class="fas fa-times"></i> Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pantalla de Login -->
+    <!-- Login -->
     <div id="authScreen" class="auth-screen">
         <div class="auth-card">
-            <div class="auth-logo">
-                <i class="fas fa-lock"></i>
-                <h1>Sistema Administrativo</h1>
-                <p>Acceso Restringido - Solo Personal Autorizado</p>
-            </div>
+            <div class="auth-logo"><i class="fas fa-lock"></i><h1>Sistema Administrativo</h1><p>Acceso Restringido</p></div>
             <div id="authMessage"></div>
-            <div class="security-notice alert alert-warning">
-                <i class="fas fa-shield-alt"></i>
-                <div>
-                    <strong>Modo de Seguridad Activo</strong>
-                    <p style="font-size: 12px; margin-top: 5px;">Acceso limitado al administrador principal.</p>
-                </div>
-            </div>
+            <div class="alert alert-warning"><i class="fas fa-shield-alt"></i><div><strong>Modo Seguro</strong><p style="font-size:12px">Acceso limitado</p></div></div>
             <form id="loginForm" onsubmit="event.preventDefault(); login();">
-                <div class="form-group">
-                    <label class="form-label">Identificación Administrativa</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user-secret"></i>
-                        <input type="email" id="loginEmail" class="form-control" placeholder="admin@system.com" value="pablogalvan560@gmail.com" required autocomplete="username">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Clave de Seguridad</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-key"></i>
-                        <input type="password" id="loginPassword" class="form-control" placeholder="Ingresa tu contraseña" value="" required autocomplete="current-password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-fingerprint"></i> Verificar Identidad</button>
-                </div>
-                <div class="form-group mt-4 text-center">
-                    <button type="button" class="btn btn-warning btn-block" onclick="createAdminUser()"><i class="fas fa-user-plus"></i> Crear Usuario Administrador</button>
-                    <small class="text-muted d-block mt-2">Usar solo si no tienes cuenta</small>
-                </div>
+                <div class="form-group"><label class="form-label">Email</label><div class="input-with-icon"><i class="fas fa-user-secret"></i><input type="email" id="loginEmail" class="form-control" placeholder="admin@system.com" value="pablogalvan560@gmail.com" required></div></div>
+                <div class="form-group"><label class="form-label">Contraseña</label><div class="input-with-icon"><i class="fas fa-key"></i><input type="password" id="loginPassword" class="form-control" placeholder="********" required></div></div>
+                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-fingerprint"></i> Ingresar</button>
+                <div class="mt-4 text-center"><button type="button" class="btn btn-warning btn-block" onclick="createAdminUser()"><i class="fas fa-user-plus"></i> Crear Admin</button><small class="d-block mt-2">Solo si no tienes cuenta</small></div>
             </form>
-            <div class="system-info mt-4 text-center">
-                <p style="font-size: 11px; color: var(--gray);">
-                    <i class="fas fa-microchip"></i> Sistema: Gestión de Préstamos v2.0<br>
-                    <i class="fas fa-user-shield"></i> Modo: Administrador Exclusivo<br>
-                    <i class="fas fa-clock"></i> Último Acceso: <span id="lastAccessTime">Nunca</span>
-                </p>
-            </div>
+            <div class="system-info mt-4 text-center"><p style="font-size:11px"><i class="fas fa-microchip"></i> v2.0 PWA<br><i class="fas fa-clock"></i> Último acceso: <span id="lastAccessTime">Nunca</span></p></div>
         </div>
     </div>
 
-    <!-- Aplicación Principal -->
+    <!-- App Principal -->
     <div id="appScreen" class="hidden">
         <div class="app-header">
-            <div class="header-left">
-                <div class="brand"><i class="fas fa-vault"></i><h1>Gestor de Préstamos Pro</h1></div>
-                <div class="security-badge"><i class="fas fa-shield-check"></i> Modo Seguro</div>
-            </div>
-            <div class="header-stats">
-                <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value" id="totalClients">0</div></div>
-                <div class="stat-card"><div class="stat-label">Préstamos</div><div class="stat-value" id="totalLoans">$0</div></div>
-                <div class="stat-card"><div class="stat-label">Pagos</div><div class="stat-value" id="totalPayments">$0</div></div>
-            </div>
+            <div class="header-left"><div class="brand"><i class="fas fa-vault"></i><h1>Gestor Préstamos Pro</h1></div><div class="security-badge"><i class="fas fa-shield-check"></i> Seguro</div></div>
+            <div class="header-stats"><div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value" id="totalClients">0</div></div><div class="stat-card"><div class="stat-label">Préstamos</div><div class="stat-value" id="totalLoans">$0</div></div><div class="stat-card"><div class="stat-label">Pagos</div><div class="stat-value" id="totalPayments">$0</div></div></div>
             <div class="user-menu">
+                <button id="darkModeToggle" class="btn btn-sm" style="background: var(--light);"><i class="fas fa-moon"></i></button>
                 <div class="user-avatar" id="userAvatar">PA</div>
-                <div class="user-info">
-                    <div class="user-name" id="userEmail"></div>
-                    <div class="user-role">Administrador</div>
-                </div>
+                <div class="user-info"><div class="user-name" id="userEmail"></div><div class="user-role">Administrador</div></div>
                 <button class="btn btn-danger btn-sm" onclick="secureLogout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
             </div>
         </div>
-
-        <div class="container" style="margin-top: 20px;">
+        <div class="container" style="margin-top:20px">
             <div class="dashboard">
-                <!-- Sidebar -->
                 <div class="sidebar">
-                    <div class="sidebar-section">
-                        <h3 class="section-title"><i class="fas fa-user-plus"></i> Nuevo Cliente</h3>
-                        <form id="addUserForm" onsubmit="event.preventDefault(); addUser();">
-                            <div class="form-group"><input type="text" id="userName" class="form-control" placeholder="Nombre completo" required autocomplete="off"></div>
-                            <div class="form-group"><input type="tel" id="userPhone" class="form-control" placeholder="Teléfono (opcional)" autocomplete="off"></div>
-                            <div class="form-group"><input type="text" id="userNotes" class="form-control" placeholder="Notas (opcional)" autocomplete="off"></div>
-                            <button type="submit" class="btn btn-success btn-block"><i class="fas fa-user-check"></i> Registrar Cliente</button>
-                        </form>
-                    </div>
-                    <div class="sidebar-section">
-                        <h3 class="section-title"><i class="fas fa-chart-network"></i> Resumen Global</h3>
-                        <div id="globalSummary" class="loading-container"><div class="spinner"></div><div class="loading-text">Cargando...</div></div>
-                    </div>
-                    <div class="sidebar-section">
-                        <h3 class="section-title"><i class="fas fa-database"></i> Herramientas</h3>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <button class="btn btn-primary" onclick="exportToCSV()"><i class="fas fa-file-export"></i> Exportar CSV</button>
-                            <button class="btn" onclick="showSystemInfo()"><i class="fas fa-info-circle"></i> Info Sistema</button>
-                            <button class="btn btn-danger" onclick="secureLogout()"><i class="fas fa-power-off"></i> Salir</button>
-                        </div>
-                    </div>
-                    <div class="sidebar-section">
-                        <h3 class="section-title"><i class="fas fa-server"></i> Estado</h3>
-                        <div id="firebaseStatus" class="alert alert-info"><i class="fas fa-sync fa-spin"></i><div><strong>Conectando...</strong><p style="font-size:12px">Verificando credenciales...</p></div></div>
-                    </div>
+                    <div class="sidebar-section"><h3 class="section-title"><i class="fas fa-user-plus"></i> Nuevo Cliente</h3><form id="addUserForm" onsubmit="event.preventDefault(); addUser();"><input type="text" id="userName" class="form-control mb-2" placeholder="Nombre completo" required><input type="tel" id="userPhone" class="form-control mb-2" placeholder="Teléfono"><input type="text" id="userNotes" class="form-control mb-2" placeholder="Notas"><button type="submit" class="btn btn-success btn-block"><i class="fas fa-user-check"></i> Registrar</button></form></div>
+                    <div class="sidebar-section"><h3 class="section-title"><i class="fas fa-chart-network"></i> Resumen</h3><div id="globalSummary" class="loading-container"><div class="spinner"></div></div></div>
+                    <div class="sidebar-section"><h3 class="section-title"><i class="fas fa-database"></i> Herramientas</h3><div style="display:flex;flex-direction:column;gap:10px"><button class="btn btn-primary" onclick="exportToCSV()"><i class="fas fa-file-export"></i> Exportar CSV</button><button class="btn" onclick="showSystemInfo()"><i class="fas fa-info-circle"></i> Info</button><button id="installButton" class="btn btn-success" style="display:none"><i class="fas fa-download"></i> Instalar App</button></div></div>
+                    <div class="sidebar-section"><h3 class="section-title"><i class="fas fa-server"></i> Estado</h3><div id="firebaseStatus" class="alert alert-info"><i class="fas fa-sync fa-spin"></i><div><strong>Conectando...</strong></div></div></div>
                 </div>
-
-                <!-- Main Content -->
                 <div class="main-content">
-                    <div class="filter-bar">
-                        <div class="filter-header">
-                            <h3><i class="fas fa-users"></i> Gestión de Clientes</h3>
-                            <div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchClient" placeholder="Buscar cliente..." oninput="filterClients()" autocomplete="off"></div>
-                        </div>
-                        <div class="summary-panel">
-                            <div class="summary-grid">
-                                <div class="summary-item"><div class="summary-value" id="summaryTotal">$0</div><div class="summary-label">Saldo Total</div></div>
-                                <div class="summary-item"><div class="summary-value" id="summaryActive">0</div><div class="summary-label">Activos</div></div>
-                                <div class="summary-item"><div class="summary-value" id="summaryPending">0</div><div class="summary-label">Pendientes</div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="usersContainer"><div class="loading-container"><div class="spinner"></div><div class="loading-text">Cargando clientes...</div></div></div>
+                    <div class="filter-bar"><div class="filter-header"><h3><i class="fas fa-users"></i> Clientes</h3><div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchClient" placeholder="Buscar..." oninput="filterClients()"></div></div><div class="summary-panel"><div class="summary-grid"><div class="summary-item"><div class="summary-value" id="summaryTotal">$0</div><div class="summary-label">Saldo Total</div></div><div class="summary-item"><div class="summary-value" id="summaryActive">0</div><div class="summary-label">Activos</div></div><div class="summary-item"><div class="summary-value" id="summaryPending">0</div><div class="summary-label">Pendientes</div></div></div></div></div>
+                    <div id="usersContainer"><div class="loading-container"><div class="spinner"></div><div class="loading-text">Cargando...</div></div></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK y lógica completa -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword,
-            signOut,
-            onAuthStateChanged,
-            createUserWithEmailAndPassword
-        } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getDatabase, ref, set, onValue, remove, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBrfjepFvq-M0WI5as7OkHE2kKH-j46xb0",
@@ -1033,539 +434,270 @@
             projectId: "cobroprestamo22",
             storageBucket: "cobroprestamo22.firebasestorage.app",
             messagingSenderId: "349047636162",
-            appId: "1:349047636162:web:b410ea248fe0fa7854bb5b",
-            measurementId: "G-VZGWWKZSKX"
+            appId: "1:349047636162:web:b410ea248fe0fa7854bb5b"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const auth = getAuth(app);
         
-        let usersRef;
-        let users = {};
-        let currentUser = null;
+        // Habilitar persistencia offline de Firebase
+        enableIndexedDbPersistence(db).catch(err => { if (err.code !== 'failed-precondition') console.warn(err); });
 
-        function checkPreviousSession() {
-            const lastAccess = localStorage.getItem('last_system_access');
-            if (lastAccess) document.getElementById('lastAccessTime').textContent = new Date(parseInt(lastAccess)).toLocaleString();
-        }
+        let users = {}, currentUser = null;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            checkPreviousSession();
-            onAuthStateChanged(auth, handleAuthStateChange);
-            initEventListeners();
+        // Modo oscuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        if (isDark) document.body.classList.add('dark');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+            const icon = darkModeToggle.querySelector('i');
+            if (document.body.classList.contains('dark')) icon.className = 'fas fa-sun';
+            else icon.className = 'fas fa-moon';
         });
+        if (isDark) darkModeToggle.querySelector('i').className = 'fas fa-sun';
+        else darkModeToggle.querySelector('i').className = 'fas fa-moon';
 
+        // PWA: Service Worker y Manifest dinámico
+        if ('serviceWorker' in navigator) {
+            const swCode = `self.addEventListener('install', e => e.waitUntil(caches.open('prestamos-v1').then(c => c.addAll(['/', '/index.html', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'])))); self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));`;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).then(reg => console.log('SW registrado', reg)).catch(err => console.warn('SW error', err));
+        }
+        // Manifest dinámico
+        const manifest = { name: "Gestor Préstamos Pro", short_name: "PrestamosPro", start_url: ".", display: "standalone", theme_color: "#2c3e50", background_color: "#ffffff", icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E", sizes: "any", type: "image/svg+xml" }] };
+        const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestUrl;
+        document.head.appendChild(link);
+        // Botón instalar
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; document.getElementById('installButton').style.display = 'block'; });
+        document.getElementById('installButton').addEventListener('click', () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { document.getElementById('installButton').style.display = 'none'; }); } });
+
+        // Autenticación
         async function handleAuthStateChange(user) {
-            if (user) {
-                currentUser = user;
-                localStorage.setItem('last_system_access', Date.now().toString());
-                showApp();
-                updateUserInterface();
-                await loadSecureData();
-            } else {
-                currentUser = null;
-                showAuth();
-            }
+            if (user) { currentUser = user; localStorage.setItem('last_system_access', Date.now()); showApp(); updateUserInterface(); await loadSecureData(); }
+            else { currentUser = null; showAuth(); }
         }
-
+        onAuthStateChanged(auth, handleAuthStateChange);
         async function login() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            if (!email || !password) { showAuthMessage('Complete todos los campos', 'error'); return; }
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                let message = 'Error de autenticación';
-                switch(error.code) {
-                    case 'auth/user-not-found': message = 'Usuario no encontrado.'; break;
-                    case 'auth/wrong-password': message = 'Contraseña incorrecta.'; break;
-                    case 'auth/invalid-email': message = 'Email inválido.'; break;
-                    case 'auth/invalid-login-credentials': message = 'Credenciales inválidas.'; break;
-                    default: message = error.message;
-                }
-                showAuthMessage(message, 'error');
-            }
+            const email = document.getElementById('loginEmail').value.trim(), password = document.getElementById('loginPassword').value;
+            if (!email || !password) { showAuthMessage('Complete campos', 'error'); return; }
+            try { await signInWithEmailAndPassword(auth, email, password); } catch(e) { showAuthMessage(e.message, 'error'); }
         }
-
         async function createAdminUser() {
             const email = document.getElementById('loginEmail').value.trim();
-            let password = prompt("Contraseña (mínimo 6 caracteres):");
-            if (!email) { alert("Ingresa un email válido primero."); return; }
-            if (!password || password.length < 6) { alert("Mínimo 6 caracteres."); return; }
-            try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                showAuthMessage('Usuario creado. Ya puedes iniciar sesión.', 'success');
-            } catch (error) {
-                let message = 'Error creando usuario';
-                if (error.code === 'auth/email-already-in-use') message = 'Email ya registrado.';
-                else if (error.code === 'auth/weak-password') message = 'Contraseña muy débil.';
-                else message = error.message;
-                showAuthMessage(message, 'error');
-            }
+            let pwd = prompt("Contraseña (mín 6):");
+            if (!email || !pwd || pwd.length<6) { alert("Email y contraseña de 6+ caracteres"); return; }
+            try { await createUserWithEmailAndPassword(auth, email, pwd); showAuthMessage('Usuario creado', 'success'); } catch(e) { showAuthMessage(e.message, 'error'); }
         }
-
-        async function secureLogout() {
-            await signOut(auth);
-            users = {};
-            currentUser = null;
-            showAuthMessage('Sesión cerrada', 'success');
-            document.getElementById('loginPassword').value = '';
-        }
-
+        async function secureLogout() { await signOut(auth); users = {}; currentUser = null; showAuthMessage('Sesión cerrada', 'success'); document.getElementById('loginPassword').value = ''; }
+        function showAuth() { document.getElementById('authScreen').classList.remove('hidden'); document.getElementById('appScreen').classList.add('hidden'); }
+        function showApp() { document.getElementById('authScreen').classList.add('hidden'); document.getElementById('appScreen').classList.remove('hidden'); }
+        function updateUserInterface() { if (currentUser?.email) { document.getElementById('userAvatar').textContent = currentUser.email.substring(0,2).toUpperCase(); document.getElementById('userEmail').textContent = currentUser.email; document.getElementById('lastConnection').textContent = new Date().toLocaleString(); } }
+        
         async function loadSecureData() {
             if (!currentUser) return;
-            usersRef = ref(db, 'loans');
-            onValue(usersRef, (snapshot) => {
-                const rawData = snapshot.val() || {};
+            const usersRef = ref(db, 'loans');
+            onValue(usersRef, (snap) => {
+                const raw = snap.val() || {};
                 users = {};
-                Object.keys(rawData).forEach(userName => {
-                    const userData = rawData[userName];
-                    users[userName] = {
-                        loans: Array.isArray(userData.loans) ? userData.loans : [],
-                        createdAt: userData.createdAt || Date.now(),
-                        updatedAt: userData.updatedAt || Date.now(),
-                        createdBy: userData.createdBy || 'Sistema',
-                        phone: userData.phone || '',
-                        notes: userData.notes || ''
-                    };
-                });
-                renderUsers();
-                updateStatistics();
-                updateSystemSummary();
-                updateStatus('🟢 Sistema Conectado');
-            }, (error) => {
-                updateStatus('🔴 Error de conexión');
-            });
+                Object.keys(raw).forEach(name => { users[name] = { loans: Array.isArray(raw[name].loans) ? raw[name].loans : [], createdAt: raw[name].createdAt || Date.now(), updatedAt: raw[name].updatedAt || Date.now(), createdBy: raw[name].createdBy || 'Sistema', phone: raw[name].phone || '', notes: raw[name].notes || '' }; });
+                renderUsers(); updateStatistics(); updateSystemSummary(); updateStatus('🟢 Conectado');
+            }, () => updateStatus('🔴 Sin conexión'));
         }
-
-        function updateUserInterface() {
-            if (currentUser?.email) {
-                const avatar = document.getElementById('userAvatar');
-                const initials = currentUser.email.substring(0,2).toUpperCase();
-                if (avatar) avatar.textContent = initials;
-                document.getElementById('userEmail').textContent = currentUser.email;
-                document.getElementById('lastConnection').textContent = new Date().toLocaleString();
-            }
-        }
-
+        
         async function addUser() {
-            if (!currentUser) { showAlert('Inicia sesión primero', 'error'); return; }
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
-            const notes = document.getElementById('userNotes').value.trim();
-            if (!name) { showAlert('Nombre obligatorio', 'error'); return; }
-            if (users[name]) { showAlert('Cliente ya existe', 'warning'); return; }
-            try {
-                const userData = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email };
-                if (phone) userData.phone = phone;
-                if (notes) userData.notes = notes;
-                await set(ref(db, 'loans/' + name), userData);
-                users[name] = userData;
-                document.getElementById('userName').value = '';
-                document.getElementById('userPhone').value = '';
-                document.getElementById('userNotes').value = '';
-                showAlert(`Cliente "${name}" registrado`, 'success');
-                renderUsers(); updateStatistics(); updateSystemSummary();
-            } catch (error) { showAlert('Error: ' + error.message, 'error'); }
+            if (!currentUser) return showAlert('Inicia sesión', 'error');
+            const name = document.getElementById('userName').value.trim(), phone = document.getElementById('userPhone').value.trim(), notes = document.getElementById('userNotes').value.trim();
+            if (!name) return showAlert('Nombre requerido', 'error');
+            if (users[name]) return showAlert('Ya existe', 'warning');
+            const userData = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email };
+            if (phone) userData.phone = phone;
+            if (notes) userData.notes = notes;
+            await set(ref(db, 'loans/' + name), userData);
+            users[name] = userData;
+            document.getElementById('userName').value = ''; document.getElementById('userPhone').value = ''; document.getElementById('userNotes').value = '';
+            showAlert(`Cliente ${name} registrado`, 'success');
+            renderUsers(); updateStatistics(); updateSystemSummary();
         }
-
+        
         async function deleteUser(userName) {
             if (!currentUser) return;
-            const modal = document.getElementById('confirmModal');
-            document.getElementById('modalTitle').textContent = '¿ELIMINAR CLIENTE?';
-            document.getElementById('modalMessage').innerHTML = `<div style="text-align:center;padding:20px;"><i class="fas fa-exclamation-triangle" style="font-size:4rem;color:var(--danger);"></i><h3>¿Eliminar ${userName}?</h3><p>Esta acción es permanente.</p></div>`;
-            const confirmBtn = document.getElementById('confirmActionBtn');
-            confirmBtn.onclick = async () => {
-                try {
-                    await remove(ref(db, 'loans/' + userName));
-                    delete users[userName];
-                    modal.classList.remove('active');
-                    showAlert(`Cliente eliminado`, 'success');
-                    renderUsers(); updateStatistics(); updateSystemSummary();
-                } catch (error) { showAlert('Error al eliminar', 'error'); }
-            };
-            modal.classList.add('active');
+            showConfirm(`¿Eliminar ${userName}?`, async () => { await remove(ref(db, 'loans/' + userName)); delete users[userName]; renderUsers(); updateStatistics(); updateSystemSummary(); showAlert('Cliente eliminado', 'success'); });
         }
-
+        
         async function addLoan(userName, amount = null, type = null, note = '') {
-            if (!currentUser) { showAlert('Inicia sesión', 'error'); return; }
+            if (!currentUser) return showAlert('Inicia sesión', 'error');
             if (amount !== null && type !== null) {
-                if (isNaN(amount) || amount === 0) { showAlert('Monto válido', 'error'); return; }
-                if (Math.abs(amount) > 1000000) { showAlert('Monto excede límite', 'error'); return; }
-                try {
-                    let user = users[userName];
-                    if (!user) {
-                        user = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email };
-                        await set(ref(db, 'loans/' + userName), user);
-                        users[userName] = user;
-                    }
-                    if (!Array.isArray(users[userName].loans)) users[userName].loans = [];
-                    const finalAmount = type === 'payment' ? -Math.abs(amount) : Math.abs(amount);
-                    const newLoan = {
-                        amount: finalAmount,
-                        date: Date.now(),
-                        type: type === 'payment' ? 'pago' : 'prestamo',
-                        processedBy: currentUser.email,
-                        note: note || '',
-                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-                    };
-                    users[userName].loans.push(newLoan);
-                    users[userName].updatedAt = Date.now();
-                    await set(ref(db, 'loans/' + userName), users[userName]);
-                    const amountInput = document.getElementById(`loan-${userName}`);
-                    if (amountInput) amountInput.value = '';
-                    const conceptInput = document.getElementById(`concept-${userName}`);
-                    if (conceptInput) conceptInput.value = '';
-                    showAlert('Movimiento registrado', 'success');
-                    renderUsers(); updateStatistics(); updateSystemSummary();
-                } catch (error) { showAlert('Error: ' + error.message, 'error'); }
+                if (isNaN(amount) || amount === 0) return showAlert('Monto válido', 'error');
+                if (Math.abs(amount) > 1e6) return showAlert('Monto excede límite', 'error');
+                let user = users[userName];
+                if (!user) { user = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email }; await set(ref(db, 'loans/' + userName), user); users[userName] = user; }
+                if (!Array.isArray(users[userName].loans)) users[userName].loans = [];
+                const finalAmount = type === 'payment' ? -Math.abs(amount) : Math.abs(amount);
+                users[userName].loans.push({ amount: finalAmount, date: Date.now(), type: type === 'payment' ? 'pago' : 'prestamo', processedBy: currentUser.email, note: note || '', id: Date.now()+Math.random().toString(36) });
+                users[userName].updatedAt = Date.now();
+                await set(ref(db, 'loans/' + userName), users[userName]);
+                document.getElementById(`loan-${userName}`).value = '';
+                const cInput = document.getElementById(`concept-${userName}`);
+                if (cInput) cInput.value = '';
+                showAlert('Movimiento registrado', 'success');
+                renderUsers(); updateStatistics(); updateSystemSummary();
                 return;
             }
-            // Método con Enter (desktop)
             const amountInput = document.getElementById(`loan-${userName}`);
             const conceptInput = document.getElementById(`concept-${userName}`);
             if (!amountInput) return;
             let amountText = amountInput.value.trim().replace(/,/g, '.');
-            if (amountText === '' || amountText === '-') { showAlert('Ingrese monto', 'error'); return; }
-            const regex = /^-?\d*\.?\d+$|^-?\d+\.?\d*$/;
-            if (!regex.test(amountText)) { showAlert('Formato inválido', 'error'); return; }
+            if (!amountText || amountText === '-') return showAlert('Ingrese monto', 'error');
             const amountValue = parseFloat(amountText);
-            if (isNaN(amountValue) || amountValue === 0) { showAlert('Monto diferente de cero', 'error'); return; }
-            if (Math.abs(amountValue) > 1000000) { showAlert('Monto excede límite', 'error'); return; }
-            try {
-                let user = users[userName];
-                if (!user) {
-                    user = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email };
-                    await set(ref(db, 'loans/' + userName), user);
-                    users[userName] = user;
-                }
-                if (!Array.isArray(users[userName].loans)) users[userName].loans = [];
-                const newLoan = {
-                    amount: amountValue,
-                    date: Date.now(),
-                    type: amountValue > 0 ? 'prestamo' : 'pago',
-                    processedBy: currentUser.email,
-                    note: conceptInput ? conceptInput.value.trim() : '',
-                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-                };
-                users[userName].loans.push(newLoan);
-                users[userName].updatedAt = Date.now();
-                await set(ref(db, 'loans/' + userName), users[userName]);
-                amountInput.value = '';
-                if (conceptInput) conceptInput.value = '';
-                showAlert('Movimiento registrado', 'success');
-                renderUsers(); updateStatistics(); updateSystemSummary();
-            } catch (error) { showAlert('Error: ' + error.message, 'error'); }
+            if (isNaN(amountValue) || amountValue === 0) return showAlert('Monto ≠ 0', 'error');
+            if (Math.abs(amountValue) > 1e6) return showAlert('Monto excede límite', 'error');
+            let user = users[userName];
+            if (!user) { user = { loans: [], createdAt: Date.now(), updatedAt: Date.now(), createdBy: currentUser.email }; await set(ref(db, 'loans/' + userName), user); users[userName] = user; }
+            if (!Array.isArray(users[userName].loans)) users[userName].loans = [];
+            users[userName].loans.push({ amount: amountValue, date: Date.now(), type: amountValue>0 ? 'prestamo' : 'pago', processedBy: currentUser.email, note: conceptInput ? conceptInput.value.trim() : '', id: Date.now()+Math.random().toString(36) });
+            users[userName].updatedAt = Date.now();
+            await set(ref(db, 'loans/' + userName), users[userName]);
+            amountInput.value = '';
+            if (conceptInput) conceptInput.value = '';
+            showAlert('Movimiento registrado', 'success');
+            renderUsers(); updateStatistics(); updateSystemSummary();
         }
-
+        
         async function closeAccount(userName) {
             if (!currentUser) return;
             const total = calculateTotal(userName);
-            if (total === 0) { showAlert('Ya está liquidada', 'info'); return; }
-            const modal = document.getElementById('confirmModal');
-            document.getElementById('modalTitle').textContent = 'LIQUIDAR CUENTA';
-            document.getElementById('modalMessage').innerHTML = `<div style="text-align:center;"><i class="fas fa-lock" style="font-size:4rem;color:var(--warning);"></i><h3>Liquidar cuenta de ${userName}</h3><p>Saldo actual: ${total>=0?'+':'-'}$${Math.abs(total).toFixed(2)}</p><p>Se creará un ajuste.</p></div>`;
-            const confirmBtn = document.getElementById('confirmActionBtn');
-            confirmBtn.onclick = async () => {
-                try {
-                    const adjustmentAmount = -total;
-                    const user = users[userName];
-                    if (!user) throw new Error('Cliente no encontrado');
-                    if (!Array.isArray(user.loans)) user.loans = [];
-                    user.loans.push({
-                        amount: adjustmentAmount,
-                        date: Date.now(),
-                        type: 'ajuste',
-                        processedBy: currentUser.email,
-                        note: 'Liquidación de cuenta',
-                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-                    });
-                    user.updatedAt = Date.now();
-                    await set(ref(db, 'loans/' + userName), user);
-                    modal.classList.remove('active');
-                    showAlert('Cuenta liquidada', 'success');
-                    renderUsers(); updateStatistics(); updateSystemSummary();
-                } catch (error) { showAlert('Error al liquidar', 'error'); }
-            };
-            modal.classList.add('active');
+            if (total === 0) return showAlert('Ya está liquidada', 'info');
+            showConfirm(`Liquidar cuenta de ${userName}? Saldo: ${total>=0?'+':'-'}$${Math.abs(total).toFixed(2)}`, async () => {
+                const user = users[userName];
+                if (!user) throw new Error('No encontrado');
+                user.loans.push({ amount: -total, date: Date.now(), type: 'ajuste', processedBy: currentUser.email, note: 'Liquidación', id: Date.now()+Math.random().toString(36) });
+                user.updatedAt = Date.now();
+                await set(ref(db, 'loans/' + userName), user);
+                showAlert('Cuenta liquidada', 'success');
+                renderUsers(); updateStatistics(); updateSystemSummary();
+            });
         }
-
+        
         async function deleteLoan(userName, index, amount) {
             if (!currentUser) return;
-            const modal = document.getElementById('confirmModal');
-            document.getElementById('modalTitle').textContent = 'ELIMINAR MOVIMIENTO';
-            document.getElementById('modalMessage').innerHTML = `<div style="text-align:center;"><i class="fas fa-trash-alt" style="font-size:4rem;color:var(--danger);"></i><h3>¿Eliminar movimiento?</h3><p>Monto: $${Math.abs(amount).toFixed(2)}</p><p>Esta acción es permanente.</p></div>`;
-            const confirmBtn = document.getElementById('confirmActionBtn');
-            confirmBtn.onclick = async () => {
-                try {
-                    const user = users[userName];
-                    if (!user || !user.loans) return;
-                    const loans = [...user.loans];
-                    loans.splice(index, 1);
-                    await set(ref(db, 'loans/' + userName + '/loans'), loans);
-                    await set(ref(db, 'loans/' + userName + '/updatedAt'), Date.now());
-                    modal.classList.remove('active');
-                    showAlert('Movimiento eliminado', 'success');
-                    renderUsers(); updateStatistics(); updateSystemSummary();
-                } catch (error) { showAlert('Error al eliminar', 'error'); }
-            };
-            modal.classList.add('active');
-        }
-
-        function exportToCSV() {
-            if (!currentUser) { showAlert('Inicia sesión', 'error'); return; }
-            if (Object.keys(users).length === 0) { showAlert('No hay datos', 'warning'); return; }
-            let csv = 'CLIENTE,TELEFONO,SALDO_ACTUAL,ULTIMA_ACTUALIZACION,NOTAS\n';
-            for (const userName in users) {
+            showConfirm(`Eliminar movimiento de $${Math.abs(amount).toFixed(2)}?`, async () => {
                 const user = users[userName];
-                const total = calculateTotal(userName);
-                const phone = user.phone || 'N/A';
-                const notes = user.notes || 'N/A';
-                const lastUpdate = user.updatedAt ? new Date(user.updatedAt).toLocaleDateString('es-MX', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : 'N/A';
-                csv += `"${userName}","${phone}","${total.toFixed(2)}","${lastUpdate}","${notes}"\n`;
+                if (!user || !user.loans) return;
+                const loans = [...user.loans];
+                loans.splice(index, 1);
+                await set(ref(db, 'loans/' + userName + '/loans'), loans);
+                await set(ref(db, 'loans/' + userName + '/updatedAt'), Date.now());
+                showAlert('Movimiento eliminado', 'success');
+                renderUsers(); updateStatistics(); updateSystemSummary();
+            });
+        }
+        
+        function exportToCSV() {
+            if (!currentUser) return showAlert('Inicia sesión', 'error');
+            let csv = 'CLIENTE,TELEFONO,SALDO,ACTUALIZACION,NOTAS\n';
+            for (const name in users) {
+                const u = users[name];
+                csv += `"${name}","${u.phone||'N/A'}","${calculateTotal(name).toFixed(2)}","${u.updatedAt?new Date(u.updatedAt).toLocaleString():'N/A'}","${u.notes||''}"\n`;
             }
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob([csv], { type: 'text/csv' });
             const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `prestamos_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
+            link.href = URL.createObjectURL(blob);
+            link.download = `prestamos_${new Date().toISOString().slice(0,10)}.csv`;
             link.click();
-            document.body.removeChild(link);
-            showAlert('Exportación completada', 'success');
+            showAlert('Exportado', 'success');
         }
-
-        function calculateTotal(userName) {
-            const user = users[userName];
-            if (!user || !user.loans) return 0;
-            return user.loans.reduce((sum, loan) => sum + (parseFloat(loan?.amount) || 0), 0);
-        }
-
-        function formatDate(timestamp) {
-            return new Date(timestamp).toLocaleDateString('es-MX', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
-        }
-
+        
+        function calculateTotal(userName) { const u = users[userName]; if (!u?.loans) return 0; return u.loans.reduce((s,l)=> s + (parseFloat(l?.amount)||0), 0); }
+        function formatDate(ts) { return new Date(ts).toLocaleString(); }
+        
         function updateStatistics() {
-            const clientCount = Object.keys(users).length;
-            let totalLoans = 0, totalPayments = 0;
-            Object.values(users).forEach(user => {
-                if (user?.loans) {
-                    user.loans.forEach(loan => {
-                        const amt = parseFloat(loan?.amount) || 0;
-                        if (amt > 0) totalLoans += amt;
-                        else if (amt < 0) totalPayments += Math.abs(amt);
-                    });
-                }
-            });
-            document.getElementById('totalClients').textContent = clientCount;
-            document.getElementById('totalLoans').textContent = `$${totalLoans.toFixed(2)}`;
-            document.getElementById('totalPayments').textContent = `$${totalPayments.toFixed(2)}`;
+            const count = Object.keys(users).length;
+            let loans = 0, payments = 0;
+            Object.values(users).forEach(u => u.loans?.forEach(l => { const a = parseFloat(l?.amount)||0; if(a>0) loans+=a; else if(a<0) payments+=Math.abs(a); }));
+            document.getElementById('totalClients').textContent = count;
+            document.getElementById('totalLoans').textContent = `$${loans.toFixed(2)}`;
+            document.getElementById('totalPayments').textContent = `$${payments.toFixed(2)}`;
         }
-
+        
         function updateSystemSummary() {
-            let totalBalance = 0, activeClients = 0, pendingLoans = 0, totalLoans = 0, totalPayments = 0;
-            Object.values(users).forEach(user => {
-                if (user?.loans) {
-                    const total = user.loans.reduce((s, l) => s + (parseFloat(l?.amount)||0), 0);
-                    totalBalance += total;
-                    if (total !== 0) activeClients++;
-                    if (total > 0) pendingLoans++;
-                    user.loans.forEach(l => {
-                        const amt = parseFloat(l?.amount)||0;
-                        if (amt > 0) totalLoans += amt;
-                        else if (amt < 0) totalPayments += Math.abs(amt);
-                    });
-                }
+            let total = 0, active = 0, pending = 0, loans = 0, payments = 0;
+            Object.values(users).forEach(u => {
+                const t = u.loans?.reduce((s,l)=> s+(parseFloat(l?.amount)||0),0) || 0;
+                total += t; if(t!==0) active++; if(t>0) pending++;
+                u.loans?.forEach(l => { const a=parseFloat(l?.amount)||0; if(a>0) loans+=a; else if(a<0) payments+=Math.abs(a); });
             });
-            document.getElementById('summaryTotal').textContent = `$${totalBalance.toFixed(2)}`;
-            document.getElementById('summaryActive').textContent = activeClients;
-            document.getElementById('summaryPending').textContent = pendingLoans;
-            const globalSummary = document.getElementById('globalSummary');
-            if (globalSummary) {
-                globalSummary.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-                    <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value">${Object.keys(users).length}</div></div>
-                    <div class="stat-card"><div class="stat-label">Saldo Total</div><div class="stat-value" style="color:${totalBalance>=0?'var(--success)':'var(--danger)'}">$${totalBalance.toFixed(2)}</div></div>
-                    <div class="stat-card"><div class="stat-label">Préstamos</div><div class="stat-value">$${totalLoans.toFixed(2)}</div></div>
-                    <div class="stat-card"><div class="stat-label">Pagos</div><div class="stat-value">$${totalPayments.toFixed(2)}</div></div>
-                </div>`;
-            }
+            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('summaryActive').textContent = active;
+            document.getElementById('summaryPending').textContent = pending;
+            const gs = document.getElementById('globalSummary');
+            if (gs) gs.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px"><div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value">${Object.keys(users).length}</div></div><div class="stat-card"><div class="stat-label">Saldo</div><div class="stat-value" style="color:${total>=0?'var(--success)':'var(--danger)'}">$${total.toFixed(2)}</div></div><div class="stat-card"><div class="stat-label">Préstamos</div><div class="stat-value">$${loans.toFixed(2)}</div></div><div class="stat-card"><div class="stat-label">Pagos</div><div class="stat-value">$${payments.toFixed(2)}</div></div></div>`;
         }
-
-        function showAuth() {
-            document.getElementById('authScreen').classList.remove('hidden');
-            document.getElementById('appScreen').classList.add('hidden');
+        
+        function showAlert(msg, type) {
+            const div = document.createElement('div');
+            div.className = `alert alert-${type}`;
+            div.innerHTML = `<i class="fas fa-${type==='error'?'exclamation-circle':type==='success'?'check-circle':'info-circle'}"></i><div>${msg}</div><button onclick="this.parentElement.remove()" style="margin-left:auto;background:none;border:none;cursor:pointer;">&times;</button>`;
+            const app = document.getElementById('appScreen');
+            if (app && !app.classList.contains('hidden')) app.insertBefore(div, app.firstChild);
+            setTimeout(() => div.remove(), 5000);
         }
-
-        function showApp() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('appScreen').classList.remove('hidden');
-        }
-
-        function showAlert(message, type) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.innerHTML = `<i class="fas fa-${type==='error'?'exclamation-circle':type==='success'?'check-circle':type==='warning'?'exclamation-triangle':'info-circle'}"></i><div>${message}</div><button onclick="this.parentElement.remove()" style="margin-left:auto;background:none;border:none;cursor:pointer;">&times;</button>`;
-            const appScreen = document.getElementById('appScreen');
-            if (appScreen && !appScreen.classList.contains('hidden')) {
-                const header = document.querySelector('.app-header');
-                if (header?.nextSibling) appScreen.insertBefore(alertDiv, header.nextSibling);
-                else document.querySelector('.container')?.insertBefore(alertDiv, document.querySelector('.container').firstChild);
-                setTimeout(() => alertDiv.remove(), 5000);
-            }
-        }
-
-        function showAuthMessage(message, type) {
-            const msgDiv = document.getElementById('authMessage');
-            if (!msgDiv) return;
-            msgDiv.className = `alert alert-${type}`;
-            msgDiv.innerHTML = `<i class="fas fa-${type==='error'?'exclamation-circle':'check-circle'}"></i><div>${message}</div>`;
-            setTimeout(() => { msgDiv.innerHTML = ''; msgDiv.className = ''; }, 5000);
-        }
-
-        function updateStatus(message) {
-            const statusEl = document.getElementById('firebaseStatus');
-            if (!statusEl) return;
-            const icon = message.includes('🟢') ? 'check-circle' : message.includes('🔴') ? 'times-circle' : 'sync-alt';
-            const color = message.includes('🟢') ? 'success' : message.includes('🔴') ? 'error' : 'info';
-            statusEl.className = `alert alert-${color}`;
-            statusEl.innerHTML = `<i class="fas fa-${icon} ${icon==='sync-alt'?'fa-spin':''}"></i><div><strong>${message.replace(/[🟢🔴]/g,'').trim()}</strong><p style="font-size:12px">${new Date().toLocaleTimeString()}</p></div>`;
-        }
-
-        function filterClients() {
-            const filter = document.getElementById('searchClient').value.trim().toLowerCase();
-            renderUsers(filter);
-        }
-
+        function showAuthMessage(msg, type) { const d = document.getElementById('authMessage'); if(d){ d.className=`alert alert-${type}`; d.innerHTML=`<i class="fas fa-${type==='error'?'exclamation-circle':'check-circle'}"></i><div>${msg}</div>`; setTimeout(()=>{d.innerHTML='';d.className='';},5000); } }
+        function updateStatus(msg) { const el = document.getElementById('firebaseStatus'); if(el){ el.className=`alert alert-${msg.includes('🟢')?'success':'error'}`; el.innerHTML=`<i class="fas fa-${msg.includes('🟢')?'check-circle':'times-circle'}"></i><div><strong>${msg.replace(/[🟢🔴]/g,'')}</strong></div>`; } }
+        
+        function filterClients() { renderUsers(document.getElementById('searchClient').value.trim().toLowerCase()); }
+        
         function renderUsers(filter = '') {
             const container = document.getElementById('usersContainer');
             if (!container) return;
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (Object.keys(users).length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-users-slash"></i><h3>Sin clientes</h3><p>Agrega tu primer cliente.</p><button class="btn btn-success mt-3" onclick="document.getElementById('userName').focus()"><i class="fas fa-user-plus"></i> Agregar</button></div>`;
-                return;
-            }
-            let filteredUsers = Object.keys(users).filter(u => filter ? u.toLowerCase().includes(filter) : true);
-            let resultsHeader = '';
-            if (filter && filteredUsers.length !== Object.keys(users).length) {
-                resultsHeader = `<div class="alert alert-info mb-3"><i class="fas fa-search"></i><div>${filteredUsers.length} de ${Object.keys(users).length} clientes encontrados.</div></div>`;
-            }
-            if (filteredUsers.length === 0) {
-                container.innerHTML = `${resultsHeader}<div class="empty-state"><i class="fas fa-search"></i><h3>No se encontraron</h3><p>Intenta con otro término.</p><button class="btn btn-primary" onclick="document.getElementById('searchClient').value='';filterClients();">Limpiar</button></div>`;
-                return;
-            }
-            container.innerHTML = `${resultsHeader}<div class="clients-grid"></div>`;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile/i.test(navigator.userAgent);
+            if (Object.keys(users).length === 0) { container.innerHTML = `<div class="empty-state"><i class="fas fa-users-slash"></i><h3>Sin clientes</h3><button class="btn btn-success mt-3" onclick="document.getElementById('userName').focus()">Agregar</button></div>`; return; }
+            let filtered = filter ? Object.keys(users).filter(n=>n.toLowerCase().includes(filter)) : Object.keys(users);
+            if (filtered.length === 0) { container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h3>No encontrados</h3><button class="btn btn-primary" onclick="document.getElementById('searchClient').value='';filterClients()">Limpiar</button></div>`; return; }
+            container.innerHTML = `<div class="clients-grid"></div>`;
             const grid = container.querySelector('.clients-grid');
-            filteredUsers.forEach(userName => {
-                const userData = users[userName];
-                const loans = userData?.loans || [];
+            filtered.forEach(userName => {
+                const u = users[userName];
+                const loans = u.loans || [];
                 const total = calculateTotal(userName);
-                const balanceClass = total > 0 ? 'positive' : total < 0 ? 'negative' : 'zero';
-                const balanceSign = total >= 0 ? '' : '-';
-                const phone = userData?.phone || 'No registrado';
-                const notes = userData?.notes || '';
-                const createdBy = userData?.createdBy || 'Sistema';
-                const safeUserName = userName.replace(/'/g, "\\'");
-                const clientCard = document.createElement('div');
-                clientCard.className = 'client-card';
-                clientCard.innerHTML = `
-                    <div class="client-header">
-                        <div class="client-info">
-                            <div class="client-avatar">${userName.substring(0,2).toUpperCase()}</div>
-                            <div class="client-details">
-                                <h3>${userName}</h3>
-                                <div class="client-meta"><span><i class="fas fa-phone"></i> ${phone}</span><span><i class="fas fa-user-tag"></i> ${createdBy}</span></div>
-                            </div>
-                        </div>
-                        <div style="display:flex;gap:5px;">
-                            <button class="btn btn-warning btn-sm" onclick="closeAccount('${safeUserName}')" ${total===0?'disabled':''}><i class="fas fa-lock"></i> Liquidar</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${safeUserName}')"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                        </div>
-                    </div>
-                    <div class="balance-container ${balanceClass}">
-                        <div class="balance-amount balance-${balanceClass}">${balanceSign}$${Math.abs(total).toFixed(2)}</div>
-                        <div class="balance-label">${total>0?'SALDO A FAVOR DEL SISTEMA':total<0?'SALDO A FAVOR DEL CLIENTE':'SALDO CERRADO'} <div style="font-size:11px">${loans.length} movimiento(s)</div></div>
-                    </div>
-                    <div class="movement-form-simple">
-                        <div class="amount-input-container"><input type="text" id="loan-${userName}" class="amount-input" placeholder="Monto (ej: 100)" inputmode="decimal" value="" onfocus="this.select()"></div>
-                        <div class="concept-input-container"><input type="text" id="concept-${userName}" class="concept-input" placeholder="¿Qué compró? (opcional)" autocomplete="off"></div>
-                        <div class="mobile-btn-group">
-                            <button class="mobile-action-btn loan-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value)||0), 'loan', document.getElementById('concept-${userName}').value)"><i class="fas fa-hand-holding-usd"></i> Préstamo (+)</button>
-                            <button class="mobile-action-btn payment-btn" onclick="addLoan('${safeUserName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value)||0), 'payment', document.getElementById('concept-${userName}').value)"><i class="fas fa-money-bill-wave"></i> Pago (-)</button>
-                        </div>
-                        <div class="form-note"><i class="fas fa-info-circle"></i> En desktop: escriba +100 o -50 y presione Enter (se toma el concepto)</div>
-                        ${isMobile ? `<div class="mobile-keypad">
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '7'">7</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '8'">8</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '9'">9</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '4'">4</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '5'">5</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '6'">6</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '1'">1</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '2'">2</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '3'">3</button>
-                            <button class="keypad-btn sign" onclick="document.getElementById('loan-${userName}').value = document.getElementById('loan-${userName}').value.startsWith('-') ? document.getElementById('loan-${userName}').value.substring(1) : '-' + document.getElementById('loan-${userName}').value">±</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value += '0'">0</button>
-                            <button class="keypad-btn decimal" onclick="if(!document.getElementById('loan-${userName}').value.includes('.')) document.getElementById('loan-${userName}').value += '.'">.</button>
-                            <button class="keypad-btn clear" onclick="document.getElementById('loan-${userName}').value = ''">C</button>
-                            <button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value = document.getElementById('loan-${userName}').value.slice(0, -1)">⌫</button>
-                        </div>` : ''}
-                    </div>
-                    ${notes ? `<div class="alert alert-info mb-3"><i class="fas fa-sticky-note"></i><div><strong>Notas:</strong> ${notes}</div></div>` : ''}
-                    <h4 class="section-title" style="font-size:0.9rem;"><i class="fas fa-history"></i> Historial (${loans.length})</h4>
-                    <div class="movements-list">${loans.length===0 ? '<div class="empty-state" style="padding:20px;"><i class="fas fa-receipt"></i><p>Sin movimientos</p></div>' : loans.map((loan, idx) => {
-                        let typeClass, typeText;
-                        if (loan?.type === 'ajuste') { typeClass = 'type-adjustment'; typeText = 'AJUSTE'; }
-                        else { const isLoan = loan?.amount >= 0; typeClass = isLoan ? 'type-loan' : 'type-payment'; typeText = isLoan ? 'PRÉSTAMO' : 'PAGO'; }
-                        const processedBy = loan.processedBy ? `<br><small>Por: ${loan.processedBy}</small>` : '';
-                        const amount = loan ? Math.abs(loan.amount || 0).toFixed(2) : '0.00';
-                        const note = loan.note ? `<br><small><i class="fas fa-comment"></i> ${loan.note}</small>` : '';
-                        return `<div class="movement-item ${loan?.type==='ajuste'?'adjustment':(loan?.amount>=0?'loan':'payment')}">
-                            <div class="movement-details">
-                                <div><span class="movement-type ${typeClass}">${typeText}</span><span class="movement-amount" style="color:${loan?.type==='ajuste'?'#9b59b6':(loan?.amount>=0?'#27ae60':'#e74c3c')}">${loan?.amount>=0?'+':'-'}$${amount}</span></div>
-                                <div class="movement-date">${loan?.date ? formatDate(loan.date) : 'Fecha?'}${processedBy}${note}</div>
-                            </div>
-                            <button class="btn btn-danger btn-sm" onclick="deleteLoan('${safeUserName}', ${idx}, ${loan?.amount||0})"><i class="fas fa-trash"></i></button>
-                        </div>`;
-                    }).join('')}</div>
+                const balanceClass = total>0?'positive':total<0?'negative':'zero';
+                const sign = total>=0?'':'-';
+                const safeName = userName.replace(/'/g,"\\'");
+                const card = document.createElement('div');
+                card.className = 'client-card';
+                card.innerHTML = `
+                    <div class="client-header"><div class="client-info"><div class="client-avatar">${userName.substring(0,2).toUpperCase()}</div><div class="client-details"><h3>${userName}</h3><div class="client-meta"><i class="fas fa-phone"></i> ${u.phone||'No'}<span><i class="fas fa-user-tag"></i> ${u.createdBy||'Sistema'}</span></div></div></div><div><button class="btn btn-warning btn-sm" onclick="closeAccount('${safeName}')" ${total===0?'disabled':''}><i class="fas fa-lock"></i> Liquidar</button><button class="btn btn-danger btn-sm" onclick="deleteUser('${safeName}')"><i class="fas fa-trash-alt"></i> Eliminar</button></div></div>
+                    <div class="balance-container ${balanceClass}"><div class="balance-amount balance-${balanceClass}">${sign}$${Math.abs(total).toFixed(2)}</div><div class="balance-label">${total>0?'SALDO SISTEMA':total<0?'SALDO CLIENTE':'CERRADO'} <div style="font-size:11px">${loans.length} mov.</div></div></div>
+                    <div class="movement-form-simple"><div class="amount-input-container"><input type="text" id="loan-${userName}" class="amount-input" placeholder="Monto (ej: 100)" inputmode="decimal"></div><div class="concept-input-container"><input type="text" id="concept-${userName}" class="concept-input" placeholder="¿Qué compró? (opcional)"></div><div class="mobile-btn-group"><button class="mobile-action-btn loan-btn" onclick="addLoan('${safeName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value)||0), 'loan', document.getElementById('concept-${userName}').value)"><i class="fas fa-hand-holding-usd"></i> Préstamo</button><button class="mobile-action-btn payment-btn" onclick="addLoan('${safeName}', Math.abs(parseFloat(document.getElementById('loan-${userName}').value)||0), 'payment', document.getElementById('concept-${userName}').value)"><i class="fas fa-money-bill-wave"></i> Pago</button></div><div class="form-note"><i class="fas fa-info-circle"></i> En desktop: Enter toma monto y concepto</div>${isMobile?`<div class="mobile-keypad"><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='7'">7</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='8'">8</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='9'">9</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='4'">4</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='5'">5</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='6'">6</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='1'">1</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='2'">2</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='3'">3</button><button class="keypad-btn sign" onclick="let v=document.getElementById('loan-${userName}').value;document.getElementById('loan-${userName}').value=v.startsWith('-')?v.substring(1):'-'+v">±</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value+='0'">0</button><button class="keypad-btn decimal" onclick="if(!document.getElementById('loan-${userName}').value.includes('.')) document.getElementById('loan-${userName}').value+='.'">.</button><button class="keypad-btn clear" onclick="document.getElementById('loan-${userName}').value=''">C</button><button class="keypad-btn" onclick="document.getElementById('loan-${userName}').value=document.getElementById('loan-${userName}').value.slice(0,-1)">⌫</button></div>`:''}</div>
+                    ${u.notes?`<div class="alert alert-info mb-3"><i class="fas fa-sticky-note"></i> ${u.notes}</div>`:''}
+                    <h4 class="section-title" style="font-size:0.9rem"><i class="fas fa-history"></i> Historial (${loans.length})</h4>
+                    <div class="movements-list">${loans.length===0?'<div class="empty-state" style="padding:20px"><i class="fas fa-receipt"></i><p>Sin movimientos</p></div>':loans.map((l,idx)=>`<div class="movement-item ${l.type==='ajuste'?'adjustment':(l.amount>=0?'loan':'payment')}"><div class="movement-details"><div><span class="movement-type ${l.type==='ajuste'?'type-adjustment':(l.amount>=0?'type-loan':'type-payment')}">${l.type==='ajuste'?'AJUSTE':(l.amount>=0?'PRÉSTAMO':'PAGO')}</span><span class="movement-amount" style="color:${l.type==='ajuste'?'#9b59b6':(l.amount>=0?'#27ae60':'#e74c3c')}">${l.amount>=0?'+':'-'}$${Math.abs(l.amount).toFixed(2)}</span></div><div class="movement-date">${formatDate(l.date)}<br><small>Por: ${l.processedBy||'Sistema'}</small>${l.note?`<br><small><i class="fas fa-comment"></i> ${l.note}</small>`:''}</div></div><button class="btn btn-danger btn-sm" onclick="deleteLoan('${safeName}',${idx},${l.amount})"><i class="fas fa-trash"></i></button></div>`).join('')}</div>
                 `;
-                grid.appendChild(clientCard);
+                grid.appendChild(card);
             });
-            if (!isMobile) {
-                document.querySelectorAll('.amount-input').forEach(input => {
-                    input.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') {
-                            const userName = this.id.replace('loan-', '');
-                            addLoan(userName);
-                        }
-                    });
-                });
-            }
+            if (!isMobile) document.querySelectorAll('.amount-input').forEach(inp => inp.addEventListener('keypress', e => { if(e.key==='Enter') addLoan(inp.id.replace('loan-','')); }));
         }
-
+        
+        function showConfirm(msg, callback) {
+            const modal = document.getElementById('confirmModal');
+            document.getElementById('modalTitle').textContent = 'Confirmar';
+            document.getElementById('modalMessage').innerHTML = `<p>${msg}</p>`;
+            const btn = document.getElementById('confirmActionBtn');
+            btn.onclick = () => { modal.classList.remove('active'); callback(); };
+            modal.classList.add('active');
+        }
         function closeModal() { document.getElementById('confirmModal').classList.remove('active'); }
         function showSystemInfo() { document.getElementById('infoModal').classList.remove('hidden'); }
         function closeInfoModal() { document.getElementById('infoModal').classList.add('hidden'); }
-        function initEventListeners() {
-            document.getElementById('loginPassword')?.addEventListener('keypress', e => { if(e.key==='Enter') login(); });
-            document.getElementById('userName')?.addEventListener('keypress', e => { if(e.key==='Enter') { e.preventDefault(); addUser(); } });
-            document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); closeInfoModal(); } });
-        }
-
-        window.login = login;
-        window.secureLogout = secureLogout;
-        window.addUser = addUser;
-        window.deleteUser = deleteUser;
-        window.addLoan = addLoan;
-        window.closeAccount = closeAccount;
-        window.deleteLoan = deleteLoan;
-        window.filterClients = filterClients;
-        window.exportToCSV = exportToCSV;
-        window.closeModal = closeModal;
-        window.closeInfoModal = closeInfoModal;
-        window.showSystemInfo = showSystemInfo;
-        window.showAlert = showAlert;
-        window.createAdminUser = createAdminUser;
+        
+        window.login = login; window.secureLogout = secureLogout; window.addUser = addUser; window.deleteUser = deleteUser; window.addLoan = addLoan; window.closeAccount = closeAccount; window.deleteLoan = deleteLoan; window.filterClients = filterClients; window.exportToCSV = exportToCSV; window.closeModal = closeModal; window.closeInfoModal = closeInfoModal; window.showSystemInfo = showSystemInfo; window.createAdminUser = createAdminUser;
     </script>
 </body>
 </html>
